@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+require_relative './lib/search_strength'
+require 'rspec'
+
+def main
+  RSpec::Core::Runner.run([File.dirname(__FILE__) + '/specs'])
+  if (ARGV.length == 0)
+    puts "Please enter file parameter"
+    return
+  else
+    begin
+      puts "Validating Input File..."
+      input = File.read(ARGV[0])
+    rescue StandardError => bang
+      puts "Error reading file #{ bang }"
+      return
+    end
+  end
+  begin
+    SearchStrength.new(input).process_input
+  rescue StandardError => bang
+    puts "Error processing input. Error - #{ bang }"
+  end
+end
+
+main()
